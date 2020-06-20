@@ -1,0 +1,44 @@
+{:description "A linter for Clojure code that sparks joy\n",
+ :displayName "clj-kondo"
+ :category ["DEVEX"],
+ :license "Apache-2.0",
+ :homepageUrl "https://github.com/atomist-skills/clojure-skill",
+ :name "clj-kondo-skill",
+ :namespace "atomist"
+ :iconUrl "https://clojure.org/images/clojure-logo-120b.png",
+ :author "Atomist",
+ :technology [],
+ :resourceProviders [{:name "github",
+                      :description "GitHub",
+                      :typeName "GitHubAppResourceProvider",
+                      :minRequired 1,
+                      :maxAllowed 1}]
+ :parameters
+ [{:string
+   {:name "check-name",
+    :display_name "GitHub CheckRun name",
+    :description "Provide a name for the GitHub CheckRun results",
+    :placeHolder "clj-kondo"
+    :required false}}
+  {:string
+   {:name "config",
+    :display_name "clj-config config",
+    :description "clj-config config",
+    :lineStyle "multiple"
+    :required false}}
+  {:string
+   {:name "config-gist-id",
+    :display_name "config gist id",
+    :description "clj-kondo config public gist id (e.g [sample config gist](https://gist.github.com/slimslenderslacks/574326df04e63527f54b4d0bb9b962d9))",
+    :placeHolder "574326df04e63527f54b4d0bb9b962d9"
+    :required false}}
+  {:repoFilter
+   {:description "The set of Repositories.",
+    :displayName "Repository Scope",
+    :name "scope",
+    :required true}}],
+ :artifacts
+ {:docker
+  [{:name "clj-kondo-skill",
+    :image
+    "gcr.io/atomist-container-skills/clj-kondo-skill:0.1.0"}]}}
