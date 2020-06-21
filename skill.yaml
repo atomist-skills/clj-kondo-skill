@@ -1,0 +1,60 @@
+apiVersion: 1
+skill:
+  description: A linter for Clojure code that sparks joy
+  displayName: clj-kondo
+  category: 
+    - DEVEX
+  license: Apache-2.0
+  homepageUrl: https://github.com/atomist-skills/clojure-skill
+  name: clj-kondo-skill
+  namespace: atomist
+  iconUrl: https://clojure.org/images/clojure-logo-120b.png
+  author: Atomist
+  technology:
+  resourceProviders:
+    - name: github
+      description: GitHub
+      typeName: GitHubAppResourceProvider
+      minRequired: 1
+      maxAllowed: 1
+    - name: slack
+      description: Slack
+      typeName: SlackResourceProvider
+      minRequired: 0
+      maxAllowed: 1
+  parameters:
+    - string:
+      name: config
+      displayNme: clj-config config
+      description: clj-config config
+      lineStyle: multiple
+      required: false
+    - string:
+        name: config-gist-id
+        displayName: config gist id
+        description: clj-kondo config public url (e.g [sample config gist](https://gist.github.com/slimslenderslacks/574326df04e63527f54b4d0bb9b962d9))
+        placeHolder: https://gist.githubusercontent.com/slimslenderslacks/574326df04e63527f54b4d0bb9b962d9/raw/8e0e3e6a691c434a63b661ae3869dd181c4fbb89/config.edn
+        required: false
+    - repoFilter:
+        description: Which repositories
+        displayName: ''
+        name: repos
+        required: true
+  artifacts:
+    docker:
+      - name: clj-kondo-skill
+        image: borkdude/clj-kondo:latest
+        workingDir: /atm/home
+        command: 
+          - /bin/sh
+        args:
+          - -c
+          # The following script should download the matcher from the repo url but this repo is private for now
+          # Also the branch to write the config parameter into the config.edn file is missing but can easily be added
+          - >-
+            cd /atm/home &&
+            wget -q -O /atm/output/matchers/clj-kondo.matcher.json https://gist.githubusercontent.com/cdupuis/ea05b10ded8ee1c8515f1f896889c527/raw/2847454aed55ac719e6564cb8794ec8950124318/skill.matcher.json >/dev/null 2>/dev/null && 
+            wget -q -O config.edn #{configuration[0].parameters['config-gist-id']} >/dev/null 2>/dev/null && 
+            clj-kondo --lint . --config config.edn
+  subscriptions: 
+    - file://graphql/subscription/*.graphql
