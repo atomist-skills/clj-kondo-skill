@@ -43,24 +43,27 @@
       (try
         (api/trace "run-clj-kondo")
         (let [atm-home (:atm-home request)
+              clj-kondo-params (concat
+                                ["--lint" "src"]
+                                (cond
+                                  (:config request) ["--config" (-> (:config request)
+                                                                    (edn/read-string)
+                                                                    (merge output-config)
+                                                                    (pr-str))]
+                                  (:config-gist request) ["--config" (-> (<! (github/gist-content
+                                                                              request
+                                                                              (:config-gist request)))
+                                                                         (edn/read-string)
+                                                                         (merge output-config)
+                                                                         (pr-str))]
+                                  :else ["--config" output-config]))
               sub-process-port (proc/aexecFile
                                 "/usr/local/bin/clj-kondo"
-                                (concat
-                                 ["--lint" "src"]
-                                 (cond
-                                   (:config request) ["--config" (-> (:config request)
-                                                                     (edn/read-string)
-                                                                     (merge output-config)
-                                                                     (pr-str))]
-                                   (:config-gist request) ["--config" (-> (<! (github/gist-content
-                                                                               request
-                                                                               (:config-gist request)))
-                                                                          (edn/read-string)
-                                                                          (merge output-config)
-                                                                          (pr-str))]
-                                   :else output-config))
+                                clj-kondo-params
                                 {:cwd (.getPath atm-home)})
               [err stdout _] (<! sub-process-port)]
+          (log/info "params:  " clj-kondo-params)
+          (log/info "stdout: " stdout)
           (if err
             (let [{:keys [findings summary]} (json/->obj stdout)]
               (log/error "process exited with code " (. err -code))
