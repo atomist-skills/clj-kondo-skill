@@ -60,8 +60,9 @@ There are already great ways to integrate [clj-kondo][clj-kondo] into your local
 [editor integration here][editor-integration].  However, this skill pulls this data into your release flow and allows
 you to build new ways of deciding whether code should be released.
 
-To create feature requests or bug reports, create an [issue in the repository for this skill](https://github.com/atomist-skills/cljfmt-skill/issues). 
-See the [code](https://github.com/atomist-skills/cljfmt-skill) for the skill.
+To create feature requests or bug reports, create an [issue in the repository for this skill](htt
+ps://github.com/atomist-skills/clj-kondo-skill/issues). 
+See the [code](https://github.com/atomist-skills/clj-kondo-skill) for the skill.
 
 [clj-kondo]: https://github.com/borkdude/clj-kondo
 [configuration]: https://github.com/borkdude/clj-kondo/blob/master/doc/config.md

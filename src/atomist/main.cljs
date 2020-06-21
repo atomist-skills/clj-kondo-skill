@@ -9,10 +9,16 @@
             [cljs-node-io.core :as io]
             [atomist.proc :as proc]
             [atomist.cljs-log :as log]
-            [clojure.string :as s])
+            [clojure.string :as s]
+            [atomist.json :as json]
+            [cljs.pprint :refer [pprint]]
+            [clojure.edn :as edn])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
-(defn stop-if-no-clj-files-detected [handler]
+(defn stop-if-no-clj-files-detected
+  "this will halt on Repos that have no clj(sc) files
+   we can remove this when the content filters are complete"
+  [handler]
   (fn [request]
     (go
       (api/trace "stop-if-no-clj-files-detected")
@@ -27,31 +33,56 @@
           (log/warn "this skill requires an ATOMIST_HOME environment variable")
           (<! (api/finish request :failure "no ATOMIST_HOME env variable set")))))))
 
+(def output-config
+  #_{:output {:pattern "::{{level}} file={{filename}},line={{row}},col={{col}}::{{message}}"}}
+  {:output {:format :json}})
+
 (defn run-clj-kondo [handler]
   (fn [request]
     (go
       (try
         (api/trace "run-clj-kondo")
         (let [atm-home (:atm-home request)
-              sub-process-port (proc/aexecFile "/usr/local/bin/clj-kondo"
-                                               (concat
-                                                ["--lint" "src"]
-                                                (cond
-                                                  (:config request) ["--config" (:config request)]
-                                                  (:config-gist request) ["--config" (<! (github/gist-content request (:config-gist request)))]
-                                                  :else nil))
-                                               {:cwd (.getPath atm-home)})
-              [err stdout stderr] (<! sub-process-port)]
+              sub-process-port (proc/aexecFile
+                                "/usr/local/bin/clj-kondo"
+                                (concat
+                                 ["--lint" "src"]
+                                 (cond
+                                   (:config request) ["--config" (-> (:config request)
+                                                                     (edn/read-string)
+                                                                     (merge output-config)
+                                                                     (pr-str))]
+                                   (:config-gist request) ["--config" (-> (<! (github/gist-content
+                                                                               request
+                                                                               (:config-gist request)))
+                                                                          (edn/read-string)
+                                                                          (merge output-config)
+                                                                          (pr-str))]
+                                   :else output-config))
+                                {:cwd (.getPath atm-home)})
+              [err stdout _] (<! sub-process-port)]
           (if err
-            (do
+            (let [{:keys [findings summary]} (json/->obj stdout)]
               (log/error "process exited with code " (. err -code))
-              (<! (handler (assoc request :checkrun/conclusion "failure"
+              (<! (handler (assoc request
+                                  :checkrun/conclusion "failure"
                                   :checkrun/output {:title (case (. err -code)
                                                              2 "clj-kondo found warnings"
                                                              3 "clj-kondo found errors"
                                                              "clj-kondo failure")
-                                                    :summary (gstring/format "## stdout\n%s\n## stderr\n%s"
-                                                                             stdout stderr)}))))
+                                                    :summary (gstring/format "```%s```" (with-out-str (pprint summary)))
+                                                    :annotations (->> findings
+                                                                      (map #(assoc {}
+                                                                                   :path (:filename %)
+                                                                                   :start_line (:row %)
+                                                                                   :end_line (:end-row %)
+                                                                                   :annotation_level (case (:level %)
+                                                                                                       "warning" "warning"
+                                                                                                       "info" "notice"
+                                                                                                       "error" "failure")
+                                                                                   :message (:message %)
+                                                                                   :title (:type %)))
+                                                                      (into []))}))))
             (<! (handler (assoc request :checkrun/conclusion "success"
                                 :checkrun/output {:title "clj-kondo saw no warnings or errors"
                                                   :summary (apply str (take-last 300 stdout))})))))
