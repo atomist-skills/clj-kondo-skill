@@ -65,15 +65,15 @@
 (defn findings->annotations [findings]
   (->> findings
        (map #(assoc {}
-               :path (:filename %)
-               :start_line (:row %)
-               :end_line (:end-row %)
-               :annotation_level (case (:level %)
-                                   "warning" "warning"
-                                   "info" "notice"
-                                   "error" "failure")
-               :message (:message %)
-               :title (:type %)))
+                    :path (:filename %)
+                    :start_line (:row %)
+                    :end_line (:end-row %)
+                    :annotation_level (case (:level %)
+                                        "warning" "warning"
+                                        "info" "notice"
+                                        "error" "failure")
+                    :message (:message %)
+                    :title (:type %)))
        (into [])))
 
 (defn run-clj-kondo [handler]
@@ -94,19 +94,19 @@
                 (<! (handler
                      (assoc
                       request
-                       :checkrun/conclusion "failure"
-                       :checkrun/output {:title (case (. err -code)
-                                                  2 "clj-kondo found warnings"
-                                                  3 "clj-kondo found errors"
-                                                  "clj-kondo failure")
-                                         :summary (gstring/format "```%s```" (with-out-str (pprint summary)))
-                                         :annotations (findings->annotations findings)}))))
+                      :checkrun/conclusion "failure"
+                      :checkrun/output {:title (case (. err -code)
+                                                 2 "clj-kondo found warnings"
+                                                 3 "clj-kondo found errors"
+                                                 "clj-kondo failure")
+                                        :summary (gstring/format "```%s```" (with-out-str (pprint summary)))
+                                        :annotations (findings->annotations findings)}))))
               (<! (handler
                    (assoc
                     request
-                     :checkrun/conclusion "success"
-                     :checkrun/output {:title "clj-kondo saw no warnings or errors"
-                                       :summary (apply str (take-last 300 stdout))})))))
+                    :checkrun/conclusion "success"
+                    :checkrun/output {:title "clj-kondo saw no warnings or errors"
+                                      :summary (apply str (take-last 300 stdout))})))))
           (<! (api/finish request :failure "unable to construct clj-kondo params from current config")))
         (catch :default ex
           (log/error ex)
