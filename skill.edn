@@ -32,10 +32,10 @@
     :lineStyle "multiple"
     :required false}}
   {:string
-   {:name "config-gist-id",
-    :display_name "config gist id",
-    :description "clj-kondo config public gist id (e.g [sample config gist](https://gist.github.com/slimslenderslacks/574326df04e63527f54b4d0bb9b962d9))",
-    :placeHolder "574326df04e63527f54b4d0bb9b962d9"
+   {:name "config-gist-url",
+    :display_name "config content url",
+    :description "clj-kondo config public url (e.g [sample config gist](https://gist.github.com/slimslenderslacks/574326df04e63527f54b4d0bb9b962d9))",
+    :placeHolder "https://gist.githubusercontent.com/slimslenderslacks/574326df04e63527f54b4d0bb9b962d9/raw/8e0e3e6a691c434a63b661ae3869dd181c4fbb89/config.edn"
     :required false}}
   {:repoFilter
    {:description "The set of Repositories.",

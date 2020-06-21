@@ -12,8 +12,7 @@ Keep track of lint warnings and errors across your repositories.
 
 * Run `clj-kondo` with the same consistent configuration across all of your Clojure code
 * Share `clj-kondo` configurations with other teams using GitHub gists.
-* Easily distinguish between warnings and violations that were already present and ones that are new from the latest Commit
-* Compose check runs data into other skills 
+* Distinguish new warnings and violations from ones that were already present.
 
 # Before you get started
 
@@ -32,8 +31,8 @@ At least one repository must be selected.
 
     The [clj-kondo configuration documentation][configuration] outlines different ways to control how the code
     is formatted.  To encourage sharing, you can also reference a public gist that contains a great
-    clj-kondo config that matches your needs.  Instead of adding the config `edn` document here, just reference set
-    the gist `id`.
+    clj-kondo config that matches your needs.  Instead of adding the config `edn` document here, 
+    users can just reference a public url (e.g. a gist [url like this][gist-url]).
     
     ![config](docs/images/config.png)
                         
@@ -67,6 +66,7 @@ See the [code](https://github.com/atomist-skills/clj-kondo-skill) for the skill.
 [clj-kondo]: https://github.com/borkdude/clj-kondo
 [configuration]: https://github.com/borkdude/clj-kondo/blob/master/doc/config.md
 [editor-integration]: https://github.com/borkdude/clj-kondo/blob/master/doc/editor-integration.md
+[gist-url]: https://gist.githubusercontent.com/slimslenderslacks/574326df04e63527f54b4d0bb9b962d9/raw/8e0e3e6a691c434a63b661ae3869dd181c4fbb89/config.edn
 
 <!---atomist-skill-readme:end--->
 
