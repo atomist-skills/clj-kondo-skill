@@ -1,7 +1,6 @@
 (ns atomist.main
   (:require [atomist.api :as api]
             [atomist.container :as container]
-            [atomist.github :as github]
             [cljs.core.async :refer [<!]]
             [goog.string.format]
             [goog.string :as gstring]
