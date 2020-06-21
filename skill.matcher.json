@@ -1,0 +1,17 @@
+{
+    "name": "clj-kondo",
+    "severity": "error",
+    "report": "error",
+    "pattern": [
+        {
+            "regexp": "[\\s\\./]*([^:]*):([0-9]*):([0-9]*):\\s(.*):\\s(.*)",
+            "groups": {
+                "path": 1,
+                "line": 2,
+                "column": 3,
+                "severity": 4,
+                "message": 5
+            }
+        }
+    ]
+}
