@@ -21,18 +21,21 @@ The **GitHub** integration must be configured in order to use this skill.
 At least one repository must be selected. 
 
 # How to configure
-    
-`.  **Choose a clj-kondo configuration**
 
-    Optionally, customize the configuration that `cljfmt` will use by adding your custom rules here. In practice, 
-    the "do nothing" approach works quite well.  The 
-    [defaults from `cljfmt`](https://github.com/weavejester/cljfmt/blob/master/cljfmt/resources/cljfmt/indents/clojure.clj) 
-    are a great start.
+1.  **Optionally choose the name of the CheckRun**
 
-    The [cljfmt configuration documentation][configuration] outlines different ways to control how the code
-    is formatted.  
+    ![check-name](docs/images/check-name.png)
     
-    ![screenshot2](docs/images/screenshot2.png)
+2.  **Choose a clj-kondo configuration**
+
+    Optionally, customize the configuration that `clj-kondo` will use by adding a config here. 
+
+    The [clj-kondo configuration documentation][configuration] outlines different ways to control how the code
+    is formatted.  To encourage sharing, you can also reference a public gist that contains a great
+    clj-kondo config that matches your needs.  Instead of adding the config `edn` document here, just reference set
+    the gist `id`.
+    
+    ![config](docs/images/config.png)
                         
 3.  **Select repositories**
 

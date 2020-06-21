@@ -8,43 +8,53 @@
             [clojure.data]
             [cljs-node-io.core :as io]
             [atomist.proc :as proc]
-            [atomist.cljs-log :as log])
+            [atomist.cljs-log :as log]
+            [clojure.string :as s])
   (:require-macros [cljs.core.async.macros :refer [go]]))
+
+(defn stop-if-no-clj-files-detected [handler]
+  (fn [request]
+    (go
+      (api/trace "stop-if-no-clj-files-detected")
+      (if-let [atm-home (.. js/process -env -ATOMIST_HOME)]
+        (let [clojure-files (->> (io/file-seq atm-home)
+                                 (filter #(s/includes? (.getName (io/file %)) ".clj"))
+                                 (count))]
+          (if (> clojure-files 0)
+            (<! (handler (assoc request :atm-home (io/file atm-home))))
+            (<! (api/finish request :success "skipping repo that contains no clj files" :visibility :hidden))))
+        (do
+          (log/warn "this skill requires an ATOMIST_HOME environment variable")
+          (<! (api/finish request :failure "no ATOMIST_HOME env variable set")))))))
 
 (defn run-clj-kondo [handler]
   (fn [request]
     (go
       (try
         (api/trace "run-clj-kondo")
-        (if-let [atm-home (.. js/process -env -ATOMIST_HOME)]
-          (let [f (io/file atm-home)
-                sub-process-port (do
-                                   (log/info "run /usr/local/bin/clj-kondo")
-                                   (proc/aexecFile "/usr/local/bin/clj-kondo"
-                                                   (concat
-                                                    ["--lint" "src"]
-                                                    (cond
-                                                      (:config request) ["--config" (:config request)]
-                                                      (:config-gist request) ["--config" (<! (github/gist-content request (:config-gist request)))]
-                                                      :else nil))
-                                                   {:cwd (.getPath f)}))
-                [err stdout stderr] (<! sub-process-port)]
-            (if err
-              (do
-                (log/error "process exited with code " (. err -code))
-                (<! (handler (assoc request :checkrun/conclusion "failure"
-                                    :checkrun/output {:title (case (. err -code)
-                                                               2 "clj-kondo found warnings"
-                                                               3 "clj-kondo found errors"
-                                                               "clj-kondo failure")
-                                                      :summary (gstring/format "## stdout\n%s\n## stderr\n%s"
-                                                                               stdout stderr)}))))
-              (<! (handler (assoc request :checkrun/conclusion "success"
-                                  :checkrun/output {:title "clj-kondo saw no warnings or errors"
-                                                    :summary (apply str (take-last 300 stdout))})))))
-          (do
-            (log/warn "this skill requires an ATOMIST_HOME environment variable")
-            (<! (api/finish request :failure "no ATOMIST_HOME env variable set"))))
+        (let [atm-home (:atm-home request)
+              sub-process-port (proc/aexecFile "/usr/local/bin/clj-kondo"
+                                               (concat
+                                                ["--lint" "src"]
+                                                (cond
+                                                  (:config request) ["--config" (:config request)]
+                                                  (:config-gist request) ["--config" (<! (github/gist-content request (:config-gist request)))]
+                                                  :else nil))
+                                               {:cwd (.getPath atm-home)})
+              [err stdout stderr] (<! sub-process-port)]
+          (if err
+            (do
+              (log/error "process exited with code " (. err -code))
+              (<! (handler (assoc request :checkrun/conclusion "failure"
+                                  :checkrun/output {:title (case (. err -code)
+                                                             2 "clj-kondo found warnings"
+                                                             3 "clj-kondo found errors"
+                                                             "clj-kondo failure")
+                                                    :summary (gstring/format "## stdout\n%s\n## stderr\n%s"
+                                                                             stdout stderr)}))))
+            (<! (handler (assoc request :checkrun/conclusion "success"
+                                :checkrun/output {:title "clj-kondo saw no warnings or errors"
+                                                  :summary (apply str (take-last 300 stdout))})))))
         (catch :default ex
           (log/error ex)
           (<! (api/finish request :failure "failed to run clj-kondo")))))))
@@ -58,5 +68,6 @@
        (api/extract-github-token)
        (api/create-ref-from-event)
        (api/add-skill-config :config :config-gist :check-name)
+       (stop-if-no-clj-files-detected)
        (api/status)
        (container/mw-make-container-request)) {}))
