@@ -2,7 +2,7 @@
  :displayName "clj-kondo"
  :categories ["CODE_REVIEW"],
  :license "Apache-2.0",
- :homepageUrl "https://github.com/atomist-skills/clojure-skill",
+ :homepageUrl "https://github.com/atomist-skills/clj-kondo-skill",
  :name "clj-kondo-skill",
  :namespace "atomist"
  :iconUrl "https://clojure.org/images/clojure-logo-120b.png",
