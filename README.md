@@ -25,14 +25,13 @@ At least one repository must be selected.
 
     ![check-name](docs/images/check-name.png)
     
-2.  **Choose a clj-kondo configuration**
+2.  **Choose a custom clj-kondo configuration**
 
-    Optionally, customize the configuration that `clj-kondo` will use by adding a config here. 
-
-    The [clj-kondo configuration documentation][configuration] outlines different ways to control how the code
-    is formatted.  To encourage sharing, you can also reference a public gist that contains a great
-    clj-kondo config that matches your needs.  Instead of adding the config `edn` document here, 
-    users can just reference a public url (e.g. a gist [url like this][gist-url]).
+    This [clj-kondo configuration][configuration] can be shared across multiple Repositories.  
+    To encourage sharing configs, users can also reference a public url (e.g. a gist url is a great
+    way to share configurations).  To share a public configuration, leave the config form element blank 
+    and reference a url.  Here is an example of public gist containing a 
+    [sample config.edn](https://gist.githubusercontent.com/slimslenderslacks/574326df04e63527f54b4d0bb9b962d9/raw/8e0e3e6a691c434a63b661ae3869dd181c4fbb89/config.edn).
     
     ![config](docs/images/config.png)
                         
@@ -56,11 +55,12 @@ At least one repository must be selected.
 1. **See clj-kondo results in your GitHub CheckRun statuses!**
 
 There are already great ways to integrate [clj-kondo][clj-kondo] into your local development flow.  See the docs on
-[editor integration here][editor-integration].  However, this skill pulls this data into your release flow and allows
-you to build new ways of deciding whether code should be released.
+[editor integration here][editor-integration].  Perhaps you are already making commits free from linting errors or warnings.
+If so, this skill will produce a GitHub CheckRun confirming this.  If not, 
+the data may encourage users to consider adding this clj-kondo feedback in to their development flow.  In both cases, this
+data is now available to downstream automation.
 
-To create feature requests or bug reports, create an [issue in the repository for this skill](htt
-ps://github.com/atomist-skills/clj-kondo-skill/issues). 
+To create feature requests or bug reports, create an [issue in the repository for this skill](https://github.com/atomist-skills/clj-kondo-skill/issues). 
 See the [code](https://github.com/atomist-skills/clj-kondo-skill) for the skill.
 
 [clj-kondo]: https://github.com/borkdude/clj-kondo
