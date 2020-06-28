@@ -20,22 +20,16 @@
                       :maxAllowed 1}]
  :parameters
  [{:string
-   {:name "check-name",
-    :display_name "GitHub CheckRun name",
-    :description "Provide a name for the GitHub CheckRun results",
-    :placeHolder "clj-kondo"
-    :required false}}
-  {:string
    {:name "config",
-    :display_name "clj-config config",
-    :description "clj-config config",
+    :display_name "Custom configuration",
+    :description "Provide a valid [configuration](https://github.com/borkdude/clj-kondo/blob/master/doc/config.md)",
     :lineStyle "multiple"
     :required false}}
   {:string
    {:name "config-gist-url",
-    :display_name "config content url",
-    :description "clj-kondo config public url (e.g [sample config gist](https://gist.github.com/slimslenderslacks/574326df04e63527f54b4d0bb9b962d9))",
-    :placeHolder "https://gist.githubusercontent.com/slimslenderslacks/574326df04e63527f54b4d0bb9b962d9/raw/8e0e3e6a691c434a63b661ae3869dd181c4fbb89/config.edn"
+    :display_name "Custom configuration URL",
+    :description "Provide a URL to a publicly accessible configuration",
+    :placeHolder "https://raw.githubusercontent.com/atomist-skills/clj-kondo-skill/master/docs/sample-config.edn"
     :required false}}
   {:repoFilter
    {:description "The set of Repositories.",

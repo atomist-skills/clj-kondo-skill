@@ -72,4 +72,4 @@
      :->args construct-clj-kondo-args
      :on-success on-success
      :on-failure on-failure
-     :ext ".clj") {}))
+     :ext ".clj") {:check-name "clj-kondo-skill"}))
