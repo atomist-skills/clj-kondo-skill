@@ -1,4 +1,4 @@
-{:description "A linter for Clojure code that sparks joy\n",
+{:description "Lint your clojure code, get warnings and errors as commit checks",
  :displayName "clj-kondo"
  :categories ["CODE_REVIEW"],
  :license "Apache-2.0",
