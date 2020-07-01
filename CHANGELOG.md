@@ -19,4 +19,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
--   Fix hompageUrl in metadata. [caedf4e](https://github.com/atomist-skills/clj-kondo-skill/commit/caedf4e5bd00ff12906eac42b956dae1cb1928ba)
+- Fix hompageUrl in metadata. [caedf4e](https://github.com/atomist-skills/clj-kondo-skill/commit/caedf4e5bd00ff12906eac42b956dae1cb1928ba)
