@@ -49,9 +49,13 @@
 
 (defn on-success [_ _ stdout _]
   (go
-    {:checkrun/conclusion "success"
-     :checkrun/output {:title "clj-kondo saw no warnings or errors"
-                       :summary (apply str (take-last 300 stdout))}}))
+   (let [{:keys [summary]} (json/->obj stdout)]
+     {:checkrun/conclusion "success"
+      :checkrun/output {:title "clj-kondo saw no warnings or errors"
+                        :summary (gstring/format "**Summary**:\nErrors:  %d\nWarnings:  %d\nDuration:  %d"
+                                                 (:error summary)
+                                                 (:warning summary)
+                                                 (:duration summary))}})))
 
 (defn on-failure [_ err stdout _]
   (go
