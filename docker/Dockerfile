@@ -1,4 +1,4 @@
-FROM borkdude/clj-kondo:latest AS binary
+FROM borkdude/clj-kondo:2020.06.21 AS binary
 
 FROM gcr.io/atomist-container-skills/clojure-base:0.0.1
 
