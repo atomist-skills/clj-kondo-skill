@@ -6,7 +6,9 @@
             [goog.string.format]
             [goog.string :as gstring]
             [cljs.core.async :refer-macros [go] :refer [<!]]
-            [atomist.cljs-log :as log]))
+            [atomist.cljs-log :as log]
+            [atomist.proc :as proc]
+            [atomist.api :as api]))
 
 (def output-config
   #_{:output {:pattern "::{{level}} file={{filename}},line={{row}},col={{col}}::{{message}}"}}
@@ -65,11 +67,25 @@
                                                   (:duration summary))
                          :annotations (findings->annotations findings)}})))
 
+(defn show-clj-kondo-version [handler binary]
+  (fn [request]
+    (go
+      (api/trace "show-clj-kondo-version")
+      (let [[_ stdout _] (<! (proc/aexecFile
+                              binary
+                              ["--version"]
+                              {:cwd (.getPath (or (:atm-home request) (-> request :project :path)))}))]
+        (log/info stdout))
+      (<! (handler request)))))
+
 (defn ^:export handler
   ""
   []
-  ((mw/with-check-run-producing-handler :cmd "/usr/local/bin/clj-kondo"
-     :->args construct-clj-kondo-args
-     :on-success on-success
-     :on-failure on-failure
-     :ext ".clj") {:check-name "clj-kondo-skill"}))
+  (let [binary "/usr/local/bin/clj-kondo"]
+    ((mw/with-check-run-producing-handler :cmd binary
+       :->args construct-clj-kondo-args
+       :on-success on-success
+       :on-failure on-failure
+       :ext ".clj"
+       :middleware (api/compose-middleware
+                    [show-clj-kondo-version binary])) {:check-name "clj-kondo-skill"})))
