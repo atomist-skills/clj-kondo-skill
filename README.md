@@ -10,9 +10,9 @@ Lint your Clojure code using [clj-kondo][clj-kondo], get GitHub CheckRuns with w
 
 Keep track of lint warnings and errors across your repositories.
 
-- Run `clj-kondo` with the same consistent configuration across all of your Clojure code
-- Distinguish new warnings and violations from ones that were already present
-- Share `clj-kondo` configurations with other teams using GitHub gists
+-   Run `clj-kondo` with the same consistent configuration across all of your Clojure code
+-   Distinguish new warnings and violations from ones that were already present
+-   Share `clj-kondo` configurations with other teams using GitHub gists
 
 # Before you get started
 
