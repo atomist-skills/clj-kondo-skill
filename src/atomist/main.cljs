@@ -64,9 +64,9 @@
   [_ _ stdout _]
   (go
     (let [{:keys [summary]} (json/->obj stdout)]
-      {:checkrun/conclusion "success",
+      {:checkrun/conclusion "success"
        :checkrun/output
-       {:title "clj-kondo saw no warnings or errors",
+       {:title "clj-kondo saw no warnings or errors"
         :summary
         (gstring/format
          "**Summary**:\nErrors:  %d\nWarnings:  %d\nDuration:  %d"
@@ -78,19 +78,19 @@
   [_ err stdout _]
   (go
     (let [{:keys [findings summary]} (json/->obj stdout)]
-      {:checkrun/conclusion "failure",
+      {:checkrun/conclusion "failure"
        :checkrun/output
        {:title
         (case (. err -code)
           2 "clj-kondo found warnings"
           3 "clj-kondo found errors"
-          "clj-kondo failure"),
+          "clj-kondo failure")
         :summary
         (gstring/format
          "**Summary**:\nErrors:  %d\nWarnings:  %d\nDuration:  %d"
          (:error summary)
          (:warning summary)
-         (:duration summary)),
+         (:duration summary))
         :annotations (findings->annotations findings)}})))
 
 (defn show-clj-kondo-version

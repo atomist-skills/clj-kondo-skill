@@ -8,7 +8,7 @@
 (deftest constuct-args-test
   (async
    done
-    (go
+   (go
      (let [project-path (io/file "./project")
            clj-kondo-path (io/file project-path ".clj-kondo")]
        (.mkdirs clj-kondo-path)
@@ -23,5 +23,5 @@
      (done))))
 
 (comment
- (enable-console-print!)
- (run-tests))
+  (enable-console-print!)
+  (run-tests))
