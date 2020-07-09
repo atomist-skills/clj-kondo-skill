@@ -21,19 +21,19 @@
  :parameters
  [{:string
    {:name "config",
-    :display_name "Custom configuration",
+    :displayName "Custom configuration",
     :description "Provide a valid [configuration](https://github.com/borkdude/clj-kondo/blob/master/doc/config.md)",
     :lineStyle "multiple"
     :required false}}
-  {:string
+  {:stringArray
    {:name "config-gist-url",
-    :display_name "Custom configuration URL",
+    :displayName "Custom configuration URL",
     :description "Provide a URL to a publicly accessible configuration",
     :placeHolder "https://raw.githubusercontent.com/atomist-skills/clj-kondo-skill/master/docs/sample-config.edn"
     :required false}}
   {:boolean
    {:name "neutral-only?",
-    :display_name "Only Neutral CheckRuns",
+    :displayName "Only Neutral CheckRuns",
     :defaultValue false,
     :description "Always Neutral permits low risk data gathering",
     :required true}}

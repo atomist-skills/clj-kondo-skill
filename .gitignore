@@ -11,3 +11,4 @@ tests.js
 .DS_Store
 .clj-kondo
 payload.json
+project
