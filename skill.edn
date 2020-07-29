@@ -1,6 +1,6 @@
 {:description "Lint your clojure code, get warnings and errors as commit checks",
  :displayName "clj-kondo"
- :categories ["CODE_REVIEW"],
+ :categories ["CODE_QUALITY"],
  :license "Apache-2.0",
  :homepageUrl "https://github.com/atomist-skills/clj-kondo-skill",
  :name "clj-kondo-skill",
