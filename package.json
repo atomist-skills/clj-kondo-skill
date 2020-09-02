@@ -10,15 +10,27 @@
     "clean": "rimraf .cpcache .shadow-cljs index.js*",
     "bundle": "bundle",
     "skill": "npm run bundle",
-    "test": "shadow-cljs compile test"
+    "test": "shadow-cljs compile test",
+    "atm:lint:prettier": "prettier --write"
   },
   "dependencies": {
     "@atomist/api-cljs": "^0.4.57"
   },
   "devDependencies": {
     "@atomist/skill-bundler": "^0.1.13",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.11",
+    "prettier": "^2.0.5",
     "rimraf": "^3.0.2",
     "shadow-cljs": "^2.8.69",
     "source-map-support": "0.5.9"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "**/*.@(graphql|json|markdown|yaml|yml|md)": "npm run atm:lint:prettier"
   }
 }
