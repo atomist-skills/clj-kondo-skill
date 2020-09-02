@@ -1,35 +1,38 @@
-{:description "Lint your clojure code, get warnings and errors as commit checks",
- :displayName "clj-kondo"
- :categories ["CODE_QUALITY"],
+{:description
+ "Lint your clojure code, get warnings and errors as commit checks",
  :license "Apache-2.0",
- :homepageUrl "https://github.com/atomist-skills/clj-kondo-skill",
+ :resourceProviders
+ [{:name "github",
+   :description "GitHub",
+   :typeName "GitHubAppResourceProvider",
+   :minRequired 1,
+   :maxAllowed 1}
+  {:name "slack",
+   :description "Slack",
+   :typeName "SlackResourceProvider",
+   :minRequired 0,
+   :maxAllowed 1}],
+ :displayName "clj-kondo",
  :name "clj-kondo-skill",
- :namespace "atomist"
- :iconUrl "https://clojure.org/images/clojure-logo-120b.png",
  :author "Atomist",
- :technologies ["CLOJURE"],
- :resourceProviders [{:name "github",
-                      :description "GitHub",
-                      :typeName "GitHubAppResourceProvider",
-                      :minRequired 1,
-                      :maxAllowed 1}
-                     {:name "slack",
-                      :description "Slack",
-                      :typeName "SlackResourceProvider",
-                      :minRequired 0,
-                      :maxAllowed 1}]
+ :categories ["CODE_QUALITY"],
+ :iconUrl "https://clojure.org/images/clojure-logo-120b.png",
+ :homepageUrl "https://github.com/atomist-skills/clj-kondo-skill",
  :parameters
  [{:string
    {:name "config",
     :displayName "Custom configuration",
-    :description "Provide a valid [configuration](https://github.com/borkdude/clj-kondo/blob/master/doc/config.md)",
-    :lineStyle "multiple"
+    :description
+    "Provide a valid [configuration](https://github.com/borkdude/clj-kondo/blob/master/doc/config.md)",
+    :lineStyle "multiple",
     :required false}}
   {:stringArray
    {:name "config-gist-url",
     :displayName "Custom configuration URL",
-    :description "Provide a URL to a publicly accessible configuration",
-    :placeHolder "https://raw.githubusercontent.com/atomist-skills/clj-kondo-skill/master/docs/sample-config.edn"
+    :description
+    "Provide a URL to a publicly accessible configuration",
+    :placeHolder
+    "https://raw.githubusercontent.com/atomist-skills/clj-kondo-skill/master/docs/sample-config.edn",
     :required false}}
   {:boolean
    {:name "neutral-only?",
@@ -42,8 +45,15 @@
     :displayName "Repository Scope",
     :name "scope",
     :required true}}],
+ :namespace "atomist",
+ :technologies ["CLOJURE"],
  :artifacts
  {:docker
   [{:name "clj-kondo-skill",
-    :image
-    "gcr.io/atomist-container-skills/clj-kondo-skill:0.1.0"}]}}
+    :image "gcr.io/atomist-container-skills/clj-kondo-skill:0.1.0"}],
+  :gcf
+  [{:name "package-cljs-skill",
+    :entryPoint "eventhandler",
+    :memory 512, 
+    :runtime "nodejs10", 
+    :timeout 60}]}}
