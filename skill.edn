@@ -15,7 +15,7 @@
  :displayName "clj-kondo",
  :name "clj-kondo-skill",
  :author "Atomist",
- :categories ["CODE_QUALITY"],
+ :categories ["CODE_MAINTENANCE"],
  :iconUrl "https://clojure.org/images/clojure-logo-120b.png",
  :homepageUrl "https://github.com/atomist-skills/clj-kondo-skill",
  :parameters
