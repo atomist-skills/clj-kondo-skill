@@ -64,10 +64,4 @@
  :artifacts
  {:docker
   [{:name "clj-kondo-skill",
-    :image "gcr.io/atomist-container-skills/clj-kondo-skill:0.1.0"}],
-  :gcf
-  [{:name "package-cljs-skill",
-    :entryPoint "eventhandler",
-    :memory 512, 
-    :runtime "nodejs10", 
-    :timeout 60}]}}
+    :image "gcr.io/atomist-container-skills/clj-kondo-skill:0.1.0"}]}}
