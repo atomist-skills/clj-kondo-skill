@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](https://github.com/atomist-skills/clj-kondo-skill/compare/0.1.6...HEAD)
 
+### Changed
+
+-   Update skill category. [aa112f2](https://github.com/atomist-skills/clj-kondo-skill/commit/aa112f29da63846b18f82074d8e2a6a9fbb8235e)
+
 ## [0.1.6](https://github.com/atomist-skills/clj-kondo-skill/compare/0.1.5...0.1.6) - 2020-07-01
 
 ## [0.1.5](https://github.com/atomist-skills/clj-kondo-skill/compare/0.1.4...0.1.5) - 2020-06-29
@@ -19,4 +23,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
-- Fix hompageUrl in metadata. [caedf4e](https://github.com/atomist-skills/clj-kondo-skill/commit/caedf4e5bd00ff12906eac42b956dae1cb1928ba)
+-   Fix hompageUrl in metadata. [caedf4e](https://github.com/atomist-skills/clj-kondo-skill/commit/caedf4e5bd00ff12906eac42b956dae1cb1928ba)
