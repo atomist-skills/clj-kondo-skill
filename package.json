@@ -30,7 +30,7 @@
     "build": "shadow-cljs release release",
     "clean": "rimraf .cpcache .shadow-cljs index.js*",
     "bundle": "bundle",
-    "skill": "npm run build && npm run bundle",
+    "skill": "npm run bundle",
     "test": "shadow-cljs compile test",
     "atm:lint:prettier": "prettier --write"
   }
