@@ -9,7 +9,8 @@
     "source-map-support": "0.5.9"
   },
   "dependencies": {
-    "@atomist/api-cljs": "^0.4.116"
+    "@atomist/api-cljs": "^0.4.116",
+    "@atomist/skill": "^0.4.0"
   },
   "author": "jim@atomist.com",
   "name": "clj-kondo-skill",
