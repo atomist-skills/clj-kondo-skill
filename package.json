@@ -25,9 +25,9 @@
   "version": "0.1.0",
   "description": "A linter for Clojure code that sparks joy",
   "scripts": {
-    "build:watch": "shadow-cljs watch dev",
+    "build:watch": "shadow-cljs watch dev -A:dev:test",
     "build:release:watch": "shadow-cljs watch release",
-    "build": "shadow-cljs release release",
+    "build": "shadow-cljs release release -A:dev:build",
     "clean": "rimraf .cpcache .shadow-cljs index.js*",
     "bundle": "bundle",
     "skill": "npm run bundle",
