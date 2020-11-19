@@ -3,6 +3,6 @@
 
 (def module-name "clj-kondo-skill")
 (def path ".")
-(def version "0.2.4")
-(def tag "0.2.4")
-(def generated-at "2020-11-17T07:13:19Z")
+(def version "0.2.6")
+(def tag "0.2.6")
+(def generated-at "2020-11-19T00:39:32Z")
