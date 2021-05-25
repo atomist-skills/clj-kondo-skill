@@ -13,7 +13,6 @@
   },
   "author": "jim@atomist.com",
   "name": "clj-kondo-skill",
-  "main": "node_modules/@atomist/api-cljs/app.js",
   "lint-staged": {
     "**/*.@(graphql|json|markdown|yaml|yml|md)": "npm run atm:lint:prettier"
   },
